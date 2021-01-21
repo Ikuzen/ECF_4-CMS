@@ -1,0 +1,1408 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.0
+
+-- Started on 2021-01-21 12:46:00
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 203 (class 1259 OID 33475)
+-- Name: core_store; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.core_store (
+    id integer NOT NULL,
+    key character varying(255),
+    value text,
+    type character varying(255),
+    environment character varying(255),
+    tag character varying(255)
+);
+
+
+ALTER TABLE public.core_store OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 33473)
+-- Name: core_store_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.core_store_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.core_store_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2988 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: core_store_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.core_store_id_seq OWNED BY public.core_store.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 33886)
+-- Name: messages; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.messages (
+    id integer NOT NULL,
+    body text,
+    author_id integer,
+    subject_id integer,
+    creation_date date,
+    published_at timestamp with time zone,
+    created_by integer,
+    updated_by integer,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.messages OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 33884)
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.messages_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.messages_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2989 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 33516)
+-- Name: strapi_administrator; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.strapi_administrator (
+    id integer NOT NULL,
+    firstname character varying(255),
+    lastname character varying(255),
+    username character varying(255),
+    email character varying(255) NOT NULL,
+    password character varying(255),
+    "resetPasswordToken" character varying(255),
+    "registrationToken" character varying(255),
+    "isActive" boolean,
+    blocked boolean
+);
+
+
+ALTER TABLE public.strapi_administrator OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 33510)
+-- Name: strapi_administrator_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.strapi_administrator_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.strapi_administrator_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2990 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: strapi_administrator_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.strapi_administrator_id_seq OWNED BY public.strapi_administrator.id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 33497)
+-- Name: strapi_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.strapi_permission (
+    id integer NOT NULL,
+    action character varying(255) NOT NULL,
+    subject character varying(255),
+    fields jsonb,
+    conditions jsonb,
+    role integer,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.strapi_permission OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 33495)
+-- Name: strapi_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.strapi_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.strapi_permission_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2991 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: strapi_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.strapi_permission_id_seq OWNED BY public.strapi_permission.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 33513)
+-- Name: strapi_role; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.strapi_role (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    code character varying(255) NOT NULL,
+    description character varying(255),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.strapi_role OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 33508)
+-- Name: strapi_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.strapi_role_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.strapi_role_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2992 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: strapi_role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.strapi_role_id_seq OWNED BY public.strapi_role.id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 33592)
+-- Name: strapi_users_roles; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.strapi_users_roles (
+    id integer NOT NULL,
+    user_id integer,
+    role_id integer
+);
+
+
+ALTER TABLE public.strapi_users_roles OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 33590)
+-- Name: strapi_users_roles_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.strapi_users_roles_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.strapi_users_roles_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2993 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: strapi_users_roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.strapi_users_roles_id_seq OWNED BY public.strapi_users_roles.id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 33486)
+-- Name: strapi_webhooks; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.strapi_webhooks (
+    id integer NOT NULL,
+    name character varying(255),
+    url text,
+    headers jsonb,
+    events jsonb,
+    enabled boolean
+);
+
+
+ALTER TABLE public.strapi_webhooks OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 33484)
+-- Name: strapi_webhooks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.strapi_webhooks_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.strapi_webhooks_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2994 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: strapi_webhooks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.strapi_webhooks_id_seq OWNED BY public.strapi_webhooks.id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 33875)
+-- Name: subjects; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.subjects (
+    id integer NOT NULL,
+    title character varying(255),
+    creator_id integer,
+    creation_date date,
+    published_at timestamp with time zone,
+    created_by integer,
+    updated_by integer,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    users_permissions_user integer
+);
+
+
+ALTER TABLE public.subjects OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 33873)
+-- Name: subjects_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.subjects_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.subjects_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2995 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: subjects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.subjects_id_seq OWNED BY public.subjects.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 33573)
+-- Name: upload_file; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.upload_file (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    "alternativeText" character varying(255),
+    caption character varying(255),
+    width integer,
+    height integer,
+    formats jsonb,
+    hash character varying(255) NOT NULL,
+    ext character varying(255),
+    mime character varying(255) NOT NULL,
+    size numeric(10,2) NOT NULL,
+    url character varying(255) NOT NULL,
+    "previewUrl" character varying(255),
+    provider character varying(255) NOT NULL,
+    provider_metadata jsonb,
+    created_by integer,
+    updated_by integer,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.upload_file OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 33563)
+-- Name: upload_file_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.upload_file_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.upload_file_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2996 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: upload_file_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.upload_file_id_seq OWNED BY public.upload_file.id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 33600)
+-- Name: upload_file_morph; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.upload_file_morph (
+    id integer NOT NULL,
+    upload_file_id integer,
+    related_id integer,
+    related_type text,
+    field text,
+    "order" integer
+);
+
+
+ALTER TABLE public.upload_file_morph OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 33597)
+-- Name: upload_file_morph_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.upload_file_morph_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.upload_file_morph_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2997 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: upload_file_morph_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.upload_file_morph_id_seq OWNED BY public.upload_file_morph.id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 33519)
+-- Name: users-permissions_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."users-permissions_permission" (
+    id integer NOT NULL,
+    type character varying(255) NOT NULL,
+    controller character varying(255) NOT NULL,
+    action character varying(255) NOT NULL,
+    enabled boolean NOT NULL,
+    policy character varying(255),
+    role integer,
+    created_by integer,
+    updated_by integer
+);
+
+
+ALTER TABLE public."users-permissions_permission" OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 33512)
+-- Name: users-permissions_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."users-permissions_permission_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."users-permissions_permission_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2998 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: users-permissions_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."users-permissions_permission_id_seq" OWNED BY public."users-permissions_permission".id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 33541)
+-- Name: users-permissions_role; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."users-permissions_role" (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    description character varying(255),
+    type character varying(255),
+    created_by integer,
+    updated_by integer
+);
+
+
+ALTER TABLE public."users-permissions_role" OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 33514)
+-- Name: users-permissions_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."users-permissions_role_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."users-permissions_role_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2999 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: users-permissions_role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."users-permissions_role_id_seq" OWNED BY public."users-permissions_role".id;
+
+
+--
+-- TOC entry 217 (class 1259 OID 33550)
+-- Name: users-permissions_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."users-permissions_user" (
+    id integer NOT NULL,
+    username character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    provider character varying(255),
+    password character varying(255),
+    "resetPasswordToken" character varying(255),
+    confirmed boolean,
+    blocked boolean,
+    role integer,
+    created_by integer,
+    updated_by integer,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "confirmationToken" character varying(255)
+);
+
+
+ALTER TABLE public."users-permissions_user" OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 33527)
+-- Name: users-permissions_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."users-permissions_user_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."users-permissions_user_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3000 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users-permissions_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."users-permissions_user_id_seq" OWNED BY public."users-permissions_user".id;
+
+
+--
+-- TOC entry 2770 (class 2604 OID 33478)
+-- Name: core_store id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.core_store ALTER COLUMN id SET DEFAULT nextval('public.core_store_id_seq'::regclass);
+
+
+--
+-- TOC entry 2792 (class 2604 OID 33889)
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
+-- TOC entry 2778 (class 2604 OID 33530)
+-- Name: strapi_administrator id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_administrator ALTER COLUMN id SET DEFAULT nextval('public.strapi_administrator_id_seq'::regclass);
+
+
+--
+-- TOC entry 2772 (class 2604 OID 33500)
+-- Name: strapi_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_permission ALTER COLUMN id SET DEFAULT nextval('public.strapi_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 2775 (class 2604 OID 33520)
+-- Name: strapi_role id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_role ALTER COLUMN id SET DEFAULT nextval('public.strapi_role_id_seq'::regclass);
+
+
+--
+-- TOC entry 2787 (class 2604 OID 33595)
+-- Name: strapi_users_roles id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_users_roles ALTER COLUMN id SET DEFAULT nextval('public.strapi_users_roles_id_seq'::regclass);
+
+
+--
+-- TOC entry 2771 (class 2604 OID 33489)
+-- Name: strapi_webhooks id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_webhooks ALTER COLUMN id SET DEFAULT nextval('public.strapi_webhooks_id_seq'::regclass);
+
+
+--
+-- TOC entry 2789 (class 2604 OID 33878)
+-- Name: subjects id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.subjects ALTER COLUMN id SET DEFAULT nextval('public.subjects_id_seq'::regclass);
+
+
+--
+-- TOC entry 2784 (class 2604 OID 33576)
+-- Name: upload_file id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.upload_file ALTER COLUMN id SET DEFAULT nextval('public.upload_file_id_seq'::regclass);
+
+
+--
+-- TOC entry 2788 (class 2604 OID 33603)
+-- Name: upload_file_morph id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.upload_file_morph ALTER COLUMN id SET DEFAULT nextval('public.upload_file_morph_id_seq'::regclass);
+
+
+--
+-- TOC entry 2779 (class 2604 OID 33532)
+-- Name: users-permissions_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_permission" ALTER COLUMN id SET DEFAULT nextval('public."users-permissions_permission_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2780 (class 2604 OID 33547)
+-- Name: users-permissions_role id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_role" ALTER COLUMN id SET DEFAULT nextval('public."users-permissions_role_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2781 (class 2604 OID 33557)
+-- Name: users-permissions_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_user" ALTER COLUMN id SET DEFAULT nextval('public."users-permissions_user_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2958 (class 0 OID 33475)
+-- Dependencies: 203
+-- Data for Name: core_store; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.core_store (id, key, value, type, environment, tag) FROM stdin;
+1	db_model_core_store	{"key":{"type":"string"},"value":{"type":"text"},"type":{"type":"string"},"environment":{"type":"string"},"tag":{"type":"string"}}	object	\N	\N
+2	db_model_strapi_webhooks	{"name":{"type":"string"},"url":{"type":"text"},"headers":{"type":"json"},"events":{"type":"json"},"enabled":{"type":"boolean"}}	object	\N	\N
+3	db_model_strapi_permission	{"action":{"type":"string","minLength":1,"configurable":false,"required":true},"subject":{"type":"string","minLength":1,"configurable":false,"required":false},"fields":{"type":"json","configurable":false,"required":false,"default":[]},"conditions":{"type":"json","configurable":false,"required":false,"default":[]},"role":{"configurable":false,"model":"role","plugin":"admin"},"created_at":{"type":"currentTimestamp"},"updated_at":{"type":"currentTimestamp"}}	object	\N	\N
+4	db_model_users-permissions_permission	{"type":{"type":"string","required":true,"configurable":false},"controller":{"type":"string","required":true,"configurable":false},"action":{"type":"string","required":true,"configurable":false},"enabled":{"type":"boolean","required":true,"configurable":false},"policy":{"type":"string","configurable":false},"role":{"model":"role","via":"permissions","plugin":"users-permissions","configurable":false},"created_by":{"model":"user","plugin":"admin"},"updated_by":{"model":"user","plugin":"admin"}}	object	\N	\N
+5	db_model_strapi_administrator	{"firstname":{"type":"string","unique":false,"minLength":1,"configurable":false,"required":false},"lastname":{"type":"string","unique":false,"minLength":1,"configurable":false,"required":false},"username":{"type":"string","unique":false,"configurable":false,"required":false},"email":{"type":"email","minLength":6,"configurable":false,"required":true,"unique":true,"private":true},"password":{"type":"password","minLength":6,"configurable":false,"required":false,"private":true},"resetPasswordToken":{"type":"string","configurable":false,"private":true},"registrationToken":{"type":"string","configurable":false,"private":true},"isActive":{"type":"boolean","default":false,"configurable":false,"private":true},"roles":{"collection":"role","collectionName":"strapi_users_roles","via":"users","dominant":true,"plugin":"admin","configurable":false,"private":true,"attribute":"role","column":"id","isVirtual":true},"blocked":{"type":"boolean","default":false,"configurable":false,"private":true}}	object	\N	\N
+6	db_model_strapi_role	{"name":{"type":"string","minLength":1,"unique":true,"configurable":false,"required":true},"code":{"type":"string","minLength":1,"unique":true,"configurable":false,"required":true},"description":{"type":"string","configurable":false},"users":{"configurable":false,"collection":"user","via":"roles","plugin":"admin","attribute":"user","column":"id","isVirtual":true},"permissions":{"configurable":false,"plugin":"admin","collection":"permission","via":"role","isVirtual":true},"created_at":{"type":"currentTimestamp"},"updated_at":{"type":"currentTimestamp"}}	object	\N	\N
+7	db_model_upload_file	{"name":{"type":"string","configurable":false,"required":true},"alternativeText":{"type":"string","configurable":false},"caption":{"type":"string","configurable":false},"width":{"type":"integer","configurable":false},"height":{"type":"integer","configurable":false},"formats":{"type":"json","configurable":false},"hash":{"type":"string","configurable":false,"required":true},"ext":{"type":"string","configurable":false},"mime":{"type":"string","configurable":false,"required":true},"size":{"type":"decimal","configurable":false,"required":true},"url":{"type":"string","configurable":false,"required":true},"previewUrl":{"type":"string","configurable":false},"provider":{"type":"string","configurable":false,"required":true},"provider_metadata":{"type":"json","configurable":false},"related":{"collection":"*","filter":"field","configurable":false},"created_by":{"model":"user","plugin":"admin"},"updated_by":{"model":"user","plugin":"admin"},"created_at":{"type":"currentTimestamp"},"updated_at":{"type":"currentTimestamp"}}	object	\N	\N
+8	db_model_users-permissions_user	{"username":{"type":"string","minLength":3,"unique":true,"configurable":false,"required":true},"email":{"type":"email","minLength":6,"configurable":false,"required":true},"provider":{"type":"string","configurable":false},"password":{"type":"password","minLength":6,"configurable":false,"private":true},"resetPasswordToken":{"type":"string","configurable":false,"private":true},"confirmed":{"type":"boolean","default":false,"configurable":false},"blocked":{"type":"boolean","default":false,"configurable":false},"role":{"model":"role","via":"users","plugin":"users-permissions","configurable":false},"created_by":{"model":"user","plugin":"admin"},"updated_by":{"model":"user","plugin":"admin"},"created_at":{"type":"currentTimestamp"},"updated_at":{"type":"currentTimestamp"}}	object	\N	\N
+9	db_model_users-permissions_role	{"name":{"type":"string","minLength":3,"required":true,"configurable":false},"description":{"type":"string","configurable":false},"type":{"type":"string","unique":true,"configurable":false},"permissions":{"collection":"permission","via":"role","plugin":"users-permissions","configurable":false,"isVirtual":true},"users":{"collection":"user","via":"role","configurable":false,"plugin":"users-permissions","isVirtual":true},"created_by":{"model":"user","plugin":"admin"},"updated_by":{"model":"user","plugin":"admin"}}	object	\N	\N
+10	db_model_strapi_users_roles	{"user_id":{"type":"integer"},"role_id":{"type":"integer"}}	object	\N	\N
+11	db_model_upload_file_morph	{"upload_file_id":{"type":"integer"},"related_id":{"type":"integer"},"related_type":{"type":"text"},"field":{"type":"text"},"order":{"type":"integer"}}	object	\N	\N
+13	plugin_upload_settings	{"sizeOptimization":true,"responsiveDimensions":true}	object	development	
+14	plugin_content_manager_configuration_content_types::strapi::user	{"uid":"strapi::user","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"firstname","defaultSortBy":"firstname","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"firstname":{"edit":{"label":"Firstname","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Firstname","searchable":true,"sortable":true}},"lastname":{"edit":{"label":"Lastname","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Lastname","searchable":true,"sortable":true}},"username":{"edit":{"label":"Username","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Username","searchable":true,"sortable":true}},"email":{"edit":{"label":"Email","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Email","searchable":true,"sortable":true}},"password":{"edit":{"label":"Password","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Password","searchable":true,"sortable":true}},"resetPasswordToken":{"edit":{"label":"ResetPasswordToken","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ResetPasswordToken","searchable":true,"sortable":true}},"registrationToken":{"edit":{"label":"RegistrationToken","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"RegistrationToken","searchable":true,"sortable":true}},"isActive":{"edit":{"label":"IsActive","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"IsActive","searchable":true,"sortable":true}},"roles":{"edit":{"label":"Roles","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Roles","searchable":false,"sortable":false}},"blocked":{"edit":{"label":"Blocked","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Blocked","searchable":true,"sortable":true}}},"layouts":{"list":["id","firstname","lastname","username"],"editRelations":["roles"],"edit":[[{"name":"firstname","size":6},{"name":"lastname","size":6}],[{"name":"username","size":6},{"name":"email","size":6}],[{"name":"password","size":6},{"name":"resetPasswordToken","size":6}],[{"name":"registrationToken","size":6},{"name":"isActive","size":4}],[{"name":"blocked","size":4}]]}}	object		
+15	plugin_content_manager_configuration_content_types::plugins::users-permissions.permission	{"uid":"plugins::users-permissions.permission","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"type","defaultSortBy":"type","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"type":{"edit":{"label":"Type","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Type","searchable":true,"sortable":true}},"controller":{"edit":{"label":"Controller","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Controller","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"enabled":{"edit":{"label":"Enabled","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Enabled","searchable":true,"sortable":true}},"policy":{"edit":{"label":"Policy","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Policy","searchable":true,"sortable":true}},"role":{"edit":{"label":"Role","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Role","searchable":false,"sortable":false}}},"layouts":{"list":["id","type","controller","action"],"editRelations":["role"],"edit":[[{"name":"type","size":6},{"name":"controller","size":6}],[{"name":"action","size":6},{"name":"enabled","size":4}],[{"name":"policy","size":6}]]}}	object		
+16	plugin_content_manager_configuration_content_types::plugins::upload.file	{"uid":"plugins::upload.file","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"name","defaultSortBy":"name","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"alternativeText":{"edit":{"label":"AlternativeText","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"AlternativeText","searchable":true,"sortable":true}},"caption":{"edit":{"label":"Caption","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Caption","searchable":true,"sortable":true}},"width":{"edit":{"label":"Width","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Width","searchable":true,"sortable":true}},"height":{"edit":{"label":"Height","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Height","searchable":true,"sortable":true}},"formats":{"edit":{"label":"Formats","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Formats","searchable":false,"sortable":false}},"hash":{"edit":{"label":"Hash","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Hash","searchable":true,"sortable":true}},"ext":{"edit":{"label":"Ext","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Ext","searchable":true,"sortable":true}},"mime":{"edit":{"label":"Mime","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Mime","searchable":true,"sortable":true}},"size":{"edit":{"label":"Size","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Size","searchable":true,"sortable":true}},"url":{"edit":{"label":"Url","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Url","searchable":true,"sortable":true}},"previewUrl":{"edit":{"label":"PreviewUrl","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"PreviewUrl","searchable":true,"sortable":true}},"provider":{"edit":{"label":"Provider","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Provider","searchable":true,"sortable":true}},"provider_metadata":{"edit":{"label":"Provider_metadata","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Provider_metadata","searchable":false,"sortable":false}},"related":{"edit":{"label":"Related","description":"","placeholder":"","visible":true,"editable":true,"mainField":"id"},"list":{"label":"Related","searchable":false,"sortable":false}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","name","alternativeText","caption"],"editRelations":["related"],"edit":[[{"name":"name","size":6},{"name":"alternativeText","size":6}],[{"name":"caption","size":6},{"name":"width","size":4}],[{"name":"height","size":4}],[{"name":"formats","size":12}],[{"name":"hash","size":6},{"name":"ext","size":6}],[{"name":"mime","size":6},{"name":"size","size":4}],[{"name":"url","size":6},{"name":"previewUrl","size":6}],[{"name":"provider","size":6}],[{"name":"provider_metadata","size":12}]]}}	object		
+17	plugin_content_manager_configuration_content_types::plugins::users-permissions.role	{"uid":"plugins::users-permissions.role","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"name","defaultSortBy":"name","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"description":{"edit":{"label":"Description","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Description","searchable":true,"sortable":true}},"type":{"edit":{"label":"Type","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Type","searchable":true,"sortable":true}},"permissions":{"edit":{"label":"Permissions","description":"","placeholder":"","visible":true,"editable":true,"mainField":"type"},"list":{"label":"Permissions","searchable":false,"sortable":false}},"users":{"edit":{"label":"Users","description":"","placeholder":"","visible":true,"editable":true,"mainField":"username"},"list":{"label":"Users","searchable":false,"sortable":false}}},"layouts":{"list":["id","name","description","type"],"editRelations":["permissions","users"],"edit":[[{"name":"name","size":6},{"name":"description","size":6}],[{"name":"type","size":6}]]}}	object		
+18	plugin_content_manager_configuration_content_types::strapi::role	{"uid":"strapi::role","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"name","defaultSortBy":"name","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"code":{"edit":{"label":"Code","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Code","searchable":true,"sortable":true}},"description":{"edit":{"label":"Description","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Description","searchable":true,"sortable":true}},"users":{"edit":{"label":"Users","description":"","placeholder":"","visible":true,"editable":true,"mainField":"firstname"},"list":{"label":"Users","searchable":false,"sortable":false}},"permissions":{"edit":{"label":"Permissions","description":"","placeholder":"","visible":true,"editable":true,"mainField":"action"},"list":{"label":"Permissions","searchable":false,"sortable":false}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","name","code","description"],"editRelations":["users","permissions"],"edit":[[{"name":"name","size":6},{"name":"code","size":6}],[{"name":"description","size":6}]]}}	object		
+19	plugin_content_manager_configuration_content_types::strapi::permission	{"uid":"strapi::permission","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"action","defaultSortBy":"action","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"subject":{"edit":{"label":"Subject","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Subject","searchable":true,"sortable":true}},"fields":{"edit":{"label":"Fields","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Fields","searchable":false,"sortable":false}},"conditions":{"edit":{"label":"Conditions","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Conditions","searchable":false,"sortable":false}},"role":{"edit":{"label":"Role","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Role","searchable":false,"sortable":false}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","action","subject","created_at"],"editRelations":["role"],"edit":[[{"name":"action","size":6},{"name":"subject","size":6}],[{"name":"fields","size":12}],[{"name":"conditions","size":12}]]}}	object		
+21	plugin_users-permissions_email	{"reset_password":{"display":"Email.template.reset_password","icon":"sync","options":{"from":{"name":"Administration Panel","email":"no-reply@strapi.io"},"response_email":"","object":"Reset password","message":"<p>We heard that you lost your password. Sorry about that!</p>\\n\\n<p>But don’t worry! You can use the following link to reset your password:</p>\\n<p><%= URL %>?code=<%= TOKEN %></p>\\n\\n<p>Thanks.</p>"}},"email_confirmation":{"display":"Email.template.email_confirmation","icon":"check-square","options":{"from":{"name":"Administration Panel","email":"no-reply@strapi.io"},"response_email":"","object":"Account confirmation","message":"<p>Thank you for registering!</p>\\n\\n<p>You have to confirm your email address. Please click on the link below.</p>\\n\\n<p><%= URL %>?confirmation=<%= CODE %></p>\\n\\n<p>Thanks.</p>"}}}	object		
+22	plugin_users-permissions_advanced	{"unique_email":true,"allow_register":true,"email_confirmation":false,"email_reset_password":null,"email_confirmation_redirection":null,"default_role":"authenticated"}	object		
+23	db_model_quizzes	{"libelle":{"type":"string","maxLength":255,"minLength":4,"required":true,"default":"none"},"created_by":{"model":"user","plugin":"admin"},"updated_by":{"model":"user","plugin":"admin"},"created_at":{"type":"currentTimestamp"},"updated_at":{"type":"currentTimestamp"}}	object	\N	\N
+28	model_def_strapi::role	{"uid":"strapi::role","collectionName":"strapi_role","kind":"collectionType","info":{"name":"Role","description":""},"options":{"timestamps":["created_at","updated_at"]},"attributes":{"name":{"type":"string","minLength":1,"unique":true,"configurable":false,"required":true},"code":{"type":"string","minLength":1,"unique":true,"configurable":false,"required":true},"description":{"type":"string","configurable":false},"users":{"configurable":false,"collection":"user","via":"roles","plugin":"admin","attribute":"user","column":"id","isVirtual":true},"permissions":{"configurable":false,"plugin":"admin","collection":"permission","via":"role","isVirtual":true}}}	object	\N	\N
+30	model_def_plugins::upload.file	{"uid":"plugins::upload.file","collectionName":"upload_file","kind":"collectionType","info":{"name":"file","description":""},"options":{"timestamps":["created_at","updated_at"]},"attributes":{"name":{"type":"string","configurable":false,"required":true},"alternativeText":{"type":"string","configurable":false},"caption":{"type":"string","configurable":false},"width":{"type":"integer","configurable":false},"height":{"type":"integer","configurable":false},"formats":{"type":"json","configurable":false},"hash":{"type":"string","configurable":false,"required":true},"ext":{"type":"string","configurable":false},"mime":{"type":"string","configurable":false,"required":true},"size":{"type":"decimal","configurable":false,"required":true},"url":{"type":"string","configurable":false,"required":true},"previewUrl":{"type":"string","configurable":false},"provider":{"type":"string","configurable":false,"required":true},"provider_metadata":{"type":"json","configurable":false},"related":{"collection":"*","filter":"field","configurable":false},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+31	model_def_plugins::users-permissions.permission	{"uid":"plugins::users-permissions.permission","collectionName":"users-permissions_permission","kind":"collectionType","info":{"name":"permission","description":""},"options":{"timestamps":false},"attributes":{"type":{"type":"string","required":true,"configurable":false},"controller":{"type":"string","required":true,"configurable":false},"action":{"type":"string","required":true,"configurable":false},"enabled":{"type":"boolean","required":true,"configurable":false},"policy":{"type":"string","configurable":false},"role":{"model":"role","via":"permissions","plugin":"users-permissions","configurable":false},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+20	plugin_content_manager_configuration_content_types::plugins::users-permissions.user	{"uid":"plugins::users-permissions.user","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"username","defaultSortBy":"username","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"username":{"edit":{"label":"Username","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Username","searchable":true,"sortable":true}},"email":{"edit":{"label":"Email","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Email","searchable":true,"sortable":true}},"provider":{"edit":{"label":"Provider","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Provider","searchable":true,"sortable":true}},"password":{"edit":{"label":"Password","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Password","searchable":true,"sortable":true}},"resetPasswordToken":{"edit":{"label":"ResetPasswordToken","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"ResetPasswordToken","searchable":true,"sortable":true}},"confirmationToken":{"edit":{"label":"ConfirmationToken","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"ConfirmationToken","searchable":true,"sortable":true}},"confirmed":{"edit":{"label":"Confirmed","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Confirmed","searchable":true,"sortable":true}},"blocked":{"edit":{"label":"Blocked","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Blocked","searchable":true,"sortable":true}},"role":{"edit":{"label":"Role","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Role","searchable":false,"sortable":false}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","username","email","confirmed"],"edit":[[{"name":"username","size":6},{"name":"email","size":6}],[{"name":"password","size":6},{"name":"confirmed","size":4}],[{"name":"blocked","size":4}]],"editRelations":["role"]}}	object		
+25	model_def_strapi::core-store	{"uid":"strapi::core-store","collectionName":"core_store","info":{"name":"core_store","description":""},"options":{"timestamps":false},"attributes":{"key":{"type":"string"},"value":{"type":"text"},"type":{"type":"string"},"environment":{"type":"string"},"tag":{"type":"string"}}}	object	\N	\N
+27	model_def_strapi::permission	{"uid":"strapi::permission","collectionName":"strapi_permission","kind":"collectionType","info":{"name":"Permission","description":""},"options":{"timestamps":["created_at","updated_at"]},"attributes":{"action":{"type":"string","minLength":1,"configurable":false,"required":true},"subject":{"type":"string","minLength":1,"configurable":false,"required":false},"fields":{"type":"json","configurable":false,"required":false,"default":[]},"conditions":{"type":"json","configurable":false,"required":false,"default":[]},"role":{"configurable":false,"model":"role","plugin":"admin"}}}	object	\N	\N
+29	model_def_strapi::user	{"uid":"strapi::user","collectionName":"strapi_administrator","kind":"collectionType","info":{"name":"User","description":""},"options":{"timestamps":false},"attributes":{"firstname":{"type":"string","unique":false,"minLength":1,"configurable":false,"required":false},"lastname":{"type":"string","unique":false,"minLength":1,"configurable":false,"required":false},"username":{"type":"string","unique":false,"configurable":false,"required":false},"email":{"type":"email","minLength":6,"configurable":false,"required":true,"unique":true,"private":true},"password":{"type":"password","minLength":6,"configurable":false,"required":false,"private":true},"resetPasswordToken":{"type":"string","configurable":false,"private":true},"registrationToken":{"type":"string","configurable":false,"private":true},"isActive":{"type":"boolean","default":false,"configurable":false,"private":true},"roles":{"collection":"role","collectionName":"strapi_users_roles","via":"users","dominant":true,"plugin":"admin","configurable":false,"private":true,"attribute":"role","column":"id","isVirtual":true},"blocked":{"type":"boolean","default":false,"configurable":false,"private":true}}}	object	\N	\N
+26	model_def_strapi::webhooks	{"uid":"strapi::webhooks","collectionName":"strapi_webhooks","info":{"name":"Strapi webhooks","description":""},"options":{"timestamps":false},"attributes":{"name":{"type":"string"},"url":{"type":"text"},"headers":{"type":"json"},"events":{"type":"json"},"enabled":{"type":"boolean"}}}	object	\N	\N
+12	plugin_users-permissions_grant	{"email":{"enabled":true,"icon":"envelope"},"discord":{"enabled":false,"icon":"discord","key":"","secret":"","callback":"/auth/discord/callback","scope":["identify","email"]},"facebook":{"enabled":false,"icon":"facebook-square","key":"","secret":"","callback":"/auth/facebook/callback","scope":["email"]},"google":{"enabled":false,"icon":"google","key":"","secret":"","callback":"/auth/google/callback","scope":["email"]},"github":{"enabled":false,"icon":"github","key":"","secret":"","callback":"/auth/github/callback","scope":["user","user:email"]},"microsoft":{"enabled":false,"icon":"windows","key":"","secret":"","callback":"/auth/microsoft/callback","scope":["user.read"]},"twitter":{"enabled":false,"icon":"twitter","key":"","secret":"","callback":"/auth/twitter/callback"},"instagram":{"enabled":false,"icon":"instagram","key":"","secret":"","callback":"/auth/instagram/callback","scope":["user_profile"]},"vk":{"enabled":false,"icon":"vk","key":"","secret":"","callback":"/auth/vk/callback","scope":["email"]},"twitch":{"enabled":false,"icon":"twitch","key":"","secret":"","callback":"/auth/twitch/callback","scope":["user:read:email"]},"linkedin":{"enabled":false,"icon":"linkedin","key":"","secret":"","callback":"/auth/linkedin/callback","scope":["r_liteprofile","r_emailaddress"]},"cognito":{"enabled":false,"icon":"aws","key":"","secret":"","subdomain":"my.subdomain.com","callback":"/auth/cognito/callback","scope":["email","openid","profile"]}}	object		
+34	model_def_application::subject.subject	{"uid":"application::subject.subject","collectionName":"subjects","kind":"collectionType","info":{"name":"Subject","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":true},"attributes":{"title":{"type":"string","required":true},"creation_date":{"type":"date"},"creator_id":{"type":"integer"},"published_at":{"type":"datetime","configurable":false},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+37	plugin_content_manager_configuration_content_types::application::message.message	{"uid":"application::message.message","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"id","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"body":{"edit":{"label":"Body","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Body","searchable":true,"sortable":true}},"author_id":{"edit":{"label":"Author_id","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author_id","searchable":true,"sortable":true}},"subject_id":{"edit":{"label":"Subject_id","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Subject_id","searchable":true,"sortable":true}},"creation_date":{"edit":{"label":"Creation_date","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Creation_date","searchable":true,"sortable":true}},"published_at":{"edit":{"label":"Published_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Published_at","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","body","author_id","subject_id"],"editRelations":[],"edit":[[{"name":"body","size":6},{"name":"author_id","size":4}],[{"name":"subject_id","size":4},{"name":"creation_date","size":4}]]}}	object		
+36	model_def_application::message.message	{"uid":"application::message.message","collectionName":"messages","kind":"collectionType","info":{"name":"message","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":true},"attributes":{"body":{"type":"text"},"author_id":{"type":"integer","required":true},"subject_id":{"type":"integer","required":true},"creation_date":{"type":"date"},"published_at":{"type":"datetime","configurable":false},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+32	model_def_plugins::users-permissions.role	{"uid":"plugins::users-permissions.role","collectionName":"users-permissions_role","kind":"collectionType","info":{"name":"role","description":""},"options":{"timestamps":false},"attributes":{"name":{"type":"string","minLength":3,"required":true,"configurable":false},"description":{"type":"string","configurable":false},"type":{"type":"string","unique":true,"configurable":false},"permissions":{"collection":"permission","via":"role","plugin":"users-permissions","configurable":false,"isVirtual":true},"users":{"collection":"user","via":"role","configurable":false,"plugin":"users-permissions","isVirtual":true},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+33	model_def_plugins::users-permissions.user	{"uid":"plugins::users-permissions.user","collectionName":"users-permissions_user","kind":"collectionType","info":{"name":"user","description":""},"options":{"draftAndPublish":false,"timestamps":["created_at","updated_at"]},"attributes":{"username":{"type":"string","minLength":3,"unique":true,"configurable":false,"required":true},"email":{"type":"email","minLength":6,"configurable":false,"required":true},"provider":{"type":"string","configurable":false},"password":{"type":"password","minLength":6,"configurable":false,"private":true},"resetPasswordToken":{"type":"string","configurable":false,"private":true},"confirmationToken":{"type":"string","configurable":false,"private":true},"confirmed":{"type":"boolean","default":false,"configurable":false},"blocked":{"type":"boolean","default":false,"configurable":false},"role":{"model":"role","via":"users","plugin":"users-permissions","configurable":false},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"private":true}}}	object	\N	\N
+35	plugin_content_manager_configuration_content_types::application::subject.subject	{"uid":"application::subject.subject","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"title","defaultSortBy":"title","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"title":{"edit":{"label":"Title","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Title","searchable":true,"sortable":true}},"creation_date":{"edit":{"label":"Creation_date","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Creation_date","searchable":true,"sortable":true}},"creator_id":{"edit":{"label":"Creator_id","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Creator_id","searchable":true,"sortable":true}},"published_at":{"edit":{"label":"Published_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Published_at","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","title","creation_date","creator_id"],"edit":[[{"name":"title","size":6}],[{"name":"creation_date","size":4}]],"editRelations":[]}}	object		
+\.
+
+
+--
+-- TOC entry 2982 (class 0 OID 33886)
+-- Dependencies: 227
+-- Data for Name: messages; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.messages (id, body, author_id, subject_id, creation_date, published_at, created_by, updated_by, created_at, updated_at) FROM stdin;
+1	blablabla	1	1	\N	2021-01-21 12:26:52.86+01	\N	\N	2021-01-21 12:26:52.864+01	2021-01-21 12:26:52.864+01
+\.
+
+
+--
+-- TOC entry 2968 (class 0 OID 33516)
+-- Dependencies: 213
+-- Data for Name: strapi_administrator; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.strapi_administrator (id, firstname, lastname, username, email, password, "resetPasswordToken", "registrationToken", "isActive", blocked) FROM stdin;
+1	yannis	samba	\N	yannis.samba@gmail.com	$2a$10$R1MBldp6oTu3NrCqXq0sTehsYydpLRn7fSFPggLa7.X09FMng771W	\N	\N	t	\N
+\.
+
+
+--
+-- TOC entry 2962 (class 0 OID 33497)
+-- Dependencies: 207
+-- Data for Name: strapi_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.strapi_permission (id, action, subject, fields, conditions, role, created_at, updated_at) FROM stdin;
+1	plugins::upload.assets.create	\N	\N	[]	2	2020-08-26 11:41:13.524+02	2020-08-26 11:41:13.536+02
+2	plugins::upload.read	\N	\N	[]	2	2020-08-26 11:41:13.524+02	2020-08-26 11:41:13.536+02
+3	plugins::upload.assets.download	\N	\N	[]	2	2020-08-26 11:41:13.525+02	2020-08-26 11:41:13.539+02
+4	plugins::upload.assets.copy-link	\N	\N	[]	2	2020-08-26 11:41:13.525+02	2020-08-26 11:41:13.539+02
+5	plugins::upload.assets.update	\N	\N	[]	2	2020-08-26 11:41:13.525+02	2020-08-26 11:41:13.541+02
+6	plugins::upload.assets.copy-link	\N	\N	[]	3	2020-08-26 11:41:13.564+02	2020-08-26 11:41:13.575+02
+7	plugins::upload.assets.download	\N	\N	[]	3	2020-08-26 11:41:13.564+02	2020-08-26 11:41:13.575+02
+8	plugins::upload.assets.update	\N	\N	["admin::is-creator"]	3	2020-08-26 11:41:13.564+02	2020-08-26 11:41:13.575+02
+9	plugins::upload.assets.create	\N	\N	[]	3	2020-08-26 11:41:13.564+02	2020-08-26 11:41:13.575+02
+10	plugins::upload.read	\N	\N	["admin::is-creator"]	3	2020-08-26 11:41:13.565+02	2020-08-26 11:41:13.578+02
+11	plugins::content-type-builder.read	\N	\N	[]	1	2020-08-26 11:41:13.61+02	2020-08-26 11:41:13.632+02
+12	plugins::content-manager.explorer.delete	plugins::users-permissions.user	\N	[]	1	2020-08-26 11:41:13.61+02	2020-08-26 11:41:13.632+02
+13	plugins::upload.assets.copy-link	\N	\N	[]	1	2020-08-26 11:41:13.61+02	2020-08-26 11:41:13.632+02
+14	plugins::upload.assets.download	\N	\N	[]	1	2020-08-26 11:41:13.61+02	2020-08-26 11:41:13.632+02
+15	plugins::upload.assets.update	\N	\N	[]	1	2020-08-26 11:41:13.611+02	2020-08-26 11:41:13.633+02
+16	plugins::upload.assets.create	\N	\N	[]	1	2020-08-26 11:41:13.611+02	2020-08-26 11:41:13.633+02
+17	plugins::upload.read	\N	\N	[]	1	2020-08-26 11:41:13.611+02	2020-08-26 11:41:13.633+02
+73	plugins::content-manager.explorer.create	application::subject.subject	["title", "creation_date", "creator_id"]	[]	1	2021-01-21 12:08:28.563+01	2021-01-21 12:08:28.573+01
+74	plugins::content-manager.explorer.read	application::subject.subject	["title", "creation_date", "creator_id"]	[]	1	2021-01-21 12:08:28.563+01	2021-01-21 12:08:28.573+01
+75	plugins::content-manager.explorer.update	application::subject.subject	["title", "creation_date", "creator_id"]	[]	1	2021-01-21 12:08:28.564+01	2021-01-21 12:08:28.574+01
+21	plugins::upload.settings.read	\N	\N	[]	1	2020-08-26 11:41:13.668+02	2020-08-26 11:41:13.693+02
+22	plugins::content-manager.single-types.configure-view	\N	\N	[]	1	2020-08-26 11:41:13.668+02	2020-08-26 11:41:13.693+02
+23	plugins::content-manager.collection-types.configure-view	\N	\N	[]	1	2020-08-26 11:41:13.668+02	2020-08-26 11:41:13.693+02
+24	plugins::content-manager.components.configure-layout	\N	\N	[]	1	2020-08-26 11:41:13.669+02	2020-08-26 11:41:13.693+02
+25	plugins::users-permissions.roles.create	\N	\N	[]	1	2020-08-26 11:41:13.669+02	2020-08-26 11:41:13.693+02
+26	plugins::users-permissions.roles.read	\N	\N	[]	1	2020-08-26 11:41:13.674+02	2020-08-26 11:41:13.7+02
+27	plugins::users-permissions.roles.update	\N	\N	[]	1	2020-08-26 11:41:13.676+02	2020-08-26 11:41:13.704+02
+28	plugins::users-permissions.roles.delete	\N	\N	[]	1	2020-08-26 11:41:13.676+02	2020-08-26 11:41:13.704+02
+29	plugins::users-permissions.providers.read	\N	\N	[]	1	2020-08-26 11:41:13.678+02	2020-08-26 11:41:13.706+02
+30	plugins::users-permissions.providers.update	\N	\N	[]	1	2020-08-26 11:41:13.687+02	2020-08-26 11:41:13.714+02
+31	plugins::users-permissions.email-templates.read	\N	\N	[]	1	2020-08-26 11:41:13.738+02	2020-08-26 11:41:13.762+02
+32	plugins::users-permissions.email-templates.update	\N	\N	[]	1	2020-08-26 11:41:13.739+02	2020-08-26 11:41:13.762+02
+33	plugins::users-permissions.advanced-settings.read	\N	\N	[]	1	2020-08-26 11:41:13.739+02	2020-08-26 11:41:13.762+02
+34	plugins::users-permissions.advanced-settings.update	\N	\N	[]	1	2020-08-26 11:41:13.742+02	2020-08-26 11:41:13.765+02
+35	admin::marketplace.read	\N	\N	[]	1	2020-08-26 11:41:13.742+02	2020-08-26 11:41:13.766+02
+36	admin::marketplace.plugins.install	\N	\N	[]	1	2020-08-26 11:41:13.745+02	2020-08-26 11:41:13.768+02
+37	admin::marketplace.plugins.uninstall	\N	\N	[]	1	2020-08-26 11:41:13.747+02	2020-08-26 11:41:13.771+02
+38	admin::webhooks.create	\N	\N	[]	1	2020-08-26 11:41:13.748+02	2020-08-26 11:41:13.771+02
+39	admin::webhooks.read	\N	\N	[]	1	2020-08-26 11:41:13.751+02	2020-08-26 11:41:13.774+02
+40	admin::webhooks.update	\N	\N	[]	1	2020-08-26 11:41:13.757+02	2020-08-26 11:41:13.78+02
+41	admin::webhooks.delete	\N	\N	[]	1	2020-08-26 11:41:13.804+02	2020-08-26 11:41:13.826+02
+42	admin::users.create	\N	\N	[]	1	2020-08-26 11:41:13.805+02	2020-08-26 11:41:13.826+02
+43	admin::users.read	\N	\N	[]	1	2020-08-26 11:41:13.805+02	2020-08-26 11:41:13.826+02
+44	admin::users.update	\N	\N	[]	1	2020-08-26 11:41:13.809+02	2020-08-26 11:41:13.829+02
+45	admin::users.delete	\N	\N	[]	1	2020-08-26 11:41:13.811+02	2020-08-26 11:41:13.831+02
+46	admin::roles.create	\N	\N	[]	1	2020-08-26 11:41:13.811+02	2020-08-26 11:41:13.831+02
+47	admin::roles.read	\N	\N	[]	1	2020-08-26 11:41:13.814+02	2020-08-26 11:41:13.833+02
+48	admin::roles.update	\N	\N	[]	1	2020-08-26 11:41:13.814+02	2020-08-26 11:41:13.833+02
+49	admin::roles.delete	\N	\N	[]	1	2020-08-26 11:41:13.817+02	2020-08-26 11:41:13.836+02
+60	plugins::content-manager.explorer.delete	application::subject.subject	\N	[]	1	2021-01-21 10:23:22.074+01	2021-01-21 10:23:22.091+01
+61	plugins::content-manager.explorer.publish	application::subject.subject	\N	[]	1	2021-01-21 10:23:22.074+01	2021-01-21 10:23:22.096+01
+62	plugins::content-manager.explorer.create	application::message.message	["body", "author_id", "subject_id", "creation_date"]	[]	1	2021-01-21 10:26:28.333+01	2021-01-21 10:26:28.35+01
+63	plugins::content-manager.explorer.read	application::message.message	["body", "author_id", "subject_id", "creation_date"]	[]	1	2021-01-21 10:26:28.333+01	2021-01-21 10:26:28.351+01
+64	plugins::content-manager.explorer.update	application::message.message	["body", "author_id", "subject_id", "creation_date"]	[]	1	2021-01-21 10:26:28.334+01	2021-01-21 10:26:28.351+01
+65	plugins::content-manager.explorer.delete	application::message.message	\N	[]	1	2021-01-21 10:26:28.334+01	2021-01-21 10:26:28.351+01
+66	plugins::content-manager.explorer.publish	application::message.message	\N	[]	1	2021-01-21 10:26:28.334+01	2021-01-21 10:26:28.356+01
+67	plugins::content-manager.explorer.create	plugins::users-permissions.user	["username", "email", "provider", "password", "resetPasswordToken", "confirmationToken", "confirmed", "blocked", "role"]	[]	1	2021-01-21 12:05:25.901+01	2021-01-21 12:24:13.089+01
+68	plugins::content-manager.explorer.read	plugins::users-permissions.user	["username", "email", "provider", "password", "resetPasswordToken", "confirmationToken", "confirmed", "blocked", "role"]	[]	1	2021-01-21 12:05:25.901+01	2021-01-21 12:24:13.09+01
+69	plugins::content-manager.explorer.update	plugins::users-permissions.user	["username", "email", "provider", "password", "resetPasswordToken", "confirmationToken", "confirmed", "blocked", "role"]	[]	1	2021-01-21 12:05:25.902+01	2021-01-21 12:24:13.093+01
+\.
+
+
+--
+-- TOC entry 2966 (class 0 OID 33513)
+-- Dependencies: 211
+-- Data for Name: strapi_role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.strapi_role (id, name, code, description, created_at, updated_at) FROM stdin;
+1	Super Admin	strapi-super-admin	Super Admins can access and manage all features and settings.	2020-08-26 11:41:13.478+02	2020-08-26 11:41:13.478+02
+2	Editor	strapi-editor	Editors can manage and publish contents including those of other users.	2020-08-26 11:41:13.498+02	2020-08-26 11:41:13.498+02
+3	Author	strapi-author	Authors can manage and publish the content they created.	2020-08-26 11:41:13.509+02	2020-08-26 11:41:13.509+02
+\.
+
+
+--
+-- TOC entry 2976 (class 0 OID 33592)
+-- Dependencies: 221
+-- Data for Name: strapi_users_roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.strapi_users_roles (id, user_id, role_id) FROM stdin;
+1	1	1
+\.
+
+
+--
+-- TOC entry 2960 (class 0 OID 33486)
+-- Dependencies: 205
+-- Data for Name: strapi_webhooks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.strapi_webhooks (id, name, url, headers, events, enabled) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2980 (class 0 OID 33875)
+-- Dependencies: 225
+-- Data for Name: subjects; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.subjects (id, title, creator_id, creation_date, published_at, created_by, updated_by, created_at, updated_at, users_permissions_user) FROM stdin;
+6	my subject5	1	\N	2021-01-21 12:24:15.016+01	\N	\N	2021-01-21 12:24:15.021+01	2021-01-21 12:24:15.021+01	\N
+\.
+
+
+--
+-- TOC entry 2974 (class 0 OID 33573)
+-- Dependencies: 219
+-- Data for Name: upload_file; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.upload_file (id, name, "alternativeText", caption, width, height, formats, hash, ext, mime, size, url, "previewUrl", provider, provider_metadata, created_by, updated_by, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2978 (class 0 OID 33600)
+-- Dependencies: 223
+-- Data for Name: upload_file_morph; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.upload_file_morph (id, upload_file_id, related_id, related_type, field, "order") FROM stdin;
+\.
+
+
+--
+-- TOC entry 2969 (class 0 OID 33519)
+-- Dependencies: 214
+-- Data for Name: users-permissions_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."users-permissions_permission" (id, type, controller, action, enabled, policy, role, created_by, updated_by) FROM stdin;
+214	application	message	count	f		2	\N	\N
+201	application	subject	count	t		1	\N	\N
+223	application	message	update	t		1	\N	\N
+39	content-type-builder	components	createcomponent	t		1	\N	\N
+43	content-type-builder	components	getcomponent	t		1	\N	\N
+47	content-type-builder	components	updatecomponent	t		1	\N	\N
+41	content-type-builder	components	deletecomponent	t		1	\N	\N
+45	content-type-builder	components	getcomponents	t		1	\N	\N
+33	content-type-builder	builder	getreservednames	t		1	\N	\N
+55	content-type-builder	contenttypes	getcontenttype	t		1	\N	\N
+53	content-type-builder	contenttypes	deletecontenttype	t		1	\N	\N
+57	content-type-builder	contenttypes	getcontenttypes	t		1	\N	\N
+59	content-type-builder	contenttypes	updatecontenttype	t		1	\N	\N
+51	content-type-builder	contenttypes	createcontenttype	t		1	\N	\N
+49	content-type-builder	connections	getconnections	t		1	\N	\N
+35	content-type-builder	componentcategories	deletecategory	t		1	\N	\N
+37	content-type-builder	componentcategories	editcategory	t		1	\N	\N
+155	content-manager	collection-types	bulkdelete	t		1	\N	\N
+34	content-type-builder	builder	getreservednames	f		2	\N	\N
+36	content-type-builder	componentcategories	deletecategory	f		2	\N	\N
+38	content-type-builder	componentcategories	editcategory	f		2	\N	\N
+40	content-type-builder	components	createcomponent	f		2	\N	\N
+42	content-type-builder	components	deletecomponent	f		2	\N	\N
+44	content-type-builder	components	getcomponent	f		2	\N	\N
+46	content-type-builder	components	getcomponents	f		2	\N	\N
+48	content-type-builder	components	updatecomponent	f		2	\N	\N
+50	content-type-builder	connections	getconnections	f		2	\N	\N
+52	content-type-builder	contenttypes	createcontenttype	f		2	\N	\N
+54	content-type-builder	contenttypes	deletecontenttype	f		2	\N	\N
+56	content-type-builder	contenttypes	getcontenttype	f		2	\N	\N
+58	content-type-builder	contenttypes	getcontenttypes	f		2	\N	\N
+60	content-type-builder	contenttypes	updatecontenttype	f		2	\N	\N
+61	email	email	send	f		1	\N	\N
+62	email	email	send	f		2	\N	\N
+65	upload	upload	count	f		1	\N	\N
+66	upload	upload	count	f		2	\N	\N
+67	upload	upload	destroy	f		1	\N	\N
+68	upload	upload	destroy	f		2	\N	\N
+69	upload	upload	find	f		1	\N	\N
+70	upload	upload	find	f		2	\N	\N
+71	upload	upload	findone	f		1	\N	\N
+72	upload	upload	findone	f		2	\N	\N
+73	upload	upload	getsettings	f		1	\N	\N
+74	upload	upload	getsettings	f		2	\N	\N
+75	upload	upload	search	f		1	\N	\N
+76	upload	upload	search	f		2	\N	\N
+77	upload	upload	updatesettings	f		1	\N	\N
+78	upload	upload	updatesettings	f		2	\N	\N
+166	content-manager	collection-types	previewmanyrelations	f		2	\N	\N
+176	content-manager	components	findcomponents	f		2	\N	\N
+186	content-manager	relations	find	f		2	\N	\N
+196	content-manager	single-types	unpublish	f		2	\N	\N
+79	upload	upload	upload	f		1	\N	\N
+119	users-permissions	userspermissions	getpermissions	f		1	\N	\N
+129	users-permissions	userspermissions	getroutes	f		1	\N	\N
+139	users-permissions	userspermissions	updateproviders	f		1	\N	\N
+202	application	subject	count	f		2	\N	\N
+224	application	message	update	f		2	\N	\N
+158	content-manager	collection-types	create	f		2	\N	\N
+168	content-manager	collection-types	publish	f		2	\N	\N
+178	content-manager	components	updatecomponentconfiguration	f		2	\N	\N
+188	content-manager	single-types	createorupdate	f		2	\N	\N
+215	application	message	create	t		1	\N	\N
+99	users-permissions	user	destroy	t		1	\N	\N
+109	users-permissions	user	update	t		1	\N	\N
+89	users-permissions	auth	register	t		1	\N	\N
+197	content-manager	uid	checkuidavailability	t		1	\N	\N
+80	upload	upload	upload	f		2	\N	\N
+90	users-permissions	auth	register	t		2	\N	\N
+100	users-permissions	user	destroy	f		2	\N	\N
+110	users-permissions	user	update	f		2	\N	\N
+120	users-permissions	userspermissions	getpermissions	f		2	\N	\N
+130	users-permissions	userspermissions	getroutes	f		2	\N	\N
+140	users-permissions	userspermissions	updateproviders	f		2	\N	\N
+156	content-manager	collection-types	bulkdelete	f		2	\N	\N
+180	content-manager	content-types	findcontenttypeconfiguration	f		2	\N	\N
+200	content-manager	uid	generateuid	f		2	\N	\N
+212	application	subject	update	f		2	\N	\N
+216	application	message	create	f		2	\N	\N
+203	application	subject	create	t		1	\N	\N
+169	content-manager	collection-types	unpublish	t		1	\N	\N
+189	content-manager	single-types	delete	t		1	\N	\N
+111	users-permissions	userspermissions	createrole	f		1	\N	\N
+121	users-permissions	userspermissions	getpolicies	f		1	\N	\N
+131	users-permissions	userspermissions	index	f		1	\N	\N
+141	users-permissions	userspermissions	updaterole	f		1	\N	\N
+204	application	subject	create	f		2	\N	\N
+211	application	subject	update	t		1	\N	\N
+217	application	message	delete	t		1	\N	\N
+101	users-permissions	user	destroyall	t		1	\N	\N
+91	users-permissions	auth	resetpassword	t		1	\N	\N
+81	users-permissions	auth	callback	t		1	\N	\N
+165	content-manager	collection-types	previewmanyrelations	t		1	\N	\N
+157	content-manager	collection-types	create	t		1	\N	\N
+175	content-manager	components	findcomponents	t		1	\N	\N
+195	content-manager	single-types	unpublish	t		1	\N	\N
+185	content-manager	relations	find	t		1	\N	\N
+82	users-permissions	auth	callback	t		2	\N	\N
+92	users-permissions	auth	resetpassword	t		2	\N	\N
+102	users-permissions	user	destroyall	f		2	\N	\N
+112	users-permissions	userspermissions	createrole	f		2	\N	\N
+122	users-permissions	userspermissions	getpolicies	f		2	\N	\N
+132	users-permissions	userspermissions	index	f		2	\N	\N
+142	users-permissions	userspermissions	updaterole	f		2	\N	\N
+160	content-manager	collection-types	delete	f		2	\N	\N
+170	content-manager	collection-types	unpublish	f		2	\N	\N
+190	content-manager	single-types	delete	f		2	\N	\N
+218	application	message	delete	f		2	\N	\N
+205	application	subject	delete	t		1	\N	\N
+199	content-manager	uid	generateuid	t		1	\N	\N
+179	content-manager	content-types	findcontenttypeconfiguration	t		1	\N	\N
+83	users-permissions	auth	connect	t		1	\N	\N
+113	users-permissions	userspermissions	deleterole	f		1	\N	\N
+123	users-permissions	userspermissions	getproviders	f		1	\N	\N
+133	users-permissions	userspermissions	searchusers	f		1	\N	\N
+206	application	subject	delete	f		2	\N	\N
+198	content-manager	uid	checkuidavailability	f		2	\N	\N
+219	application	message	find	t		1	\N	\N
+103	users-permissions	user	find	t		1	\N	\N
+93	users-permissions	auth	sendemailconfirmation	t		1	\N	\N
+159	content-manager	collection-types	delete	t		1	\N	\N
+167	content-manager	collection-types	publish	t		1	\N	\N
+177	content-manager	components	updatecomponentconfiguration	t		1	\N	\N
+187	content-manager	single-types	createorupdate	t		1	\N	\N
+84	users-permissions	auth	connect	t		2	\N	\N
+94	users-permissions	auth	sendemailconfirmation	f		2	\N	\N
+104	users-permissions	user	find	f		2	\N	\N
+114	users-permissions	userspermissions	deleterole	f		2	\N	\N
+124	users-permissions	userspermissions	getproviders	f		2	\N	\N
+134	users-permissions	userspermissions	searchusers	f		2	\N	\N
+220	application	message	find	f		2	\N	\N
+207	application	subject	find	t		1	\N	\N
+161	content-manager	collection-types	find	t		1	\N	\N
+171	content-manager	collection-types	update	t		1	\N	\N
+191	content-manager	single-types	find	t		1	\N	\N
+181	content-manager	content-types	findcontenttypes	t		1	\N	\N
+115	users-permissions	userspermissions	getadvancedsettings	f		1	\N	\N
+125	users-permissions	userspermissions	getrole	f		1	\N	\N
+135	users-permissions	userspermissions	updateadvancedsettings	f		1	\N	\N
+208	application	subject	find	f		2	\N	\N
+162	content-manager	collection-types	find	f		2	\N	\N
+172	content-manager	collection-types	update	f		2	\N	\N
+182	content-manager	content-types	findcontenttypes	f		2	\N	\N
+192	content-manager	single-types	find	f		2	\N	\N
+221	application	message	findone	t		1	\N	\N
+95	users-permissions	user	count	t		1	\N	\N
+105	users-permissions	user	findone	t		1	\N	\N
+85	users-permissions	auth	emailconfirmation	t		1	\N	\N
+86	users-permissions	auth	emailconfirmation	t		2	\N	\N
+106	users-permissions	user	findone	f		2	\N	\N
+116	users-permissions	userspermissions	getadvancedsettings	f		2	\N	\N
+126	users-permissions	userspermissions	getrole	f		2	\N	\N
+136	users-permissions	userspermissions	updateadvancedsettings	f		2	\N	\N
+222	application	message	findone	f		2	\N	\N
+209	application	subject	findone	t		1	\N	\N
+96	users-permissions	user	create	t		1	\N	\N
+163	content-manager	collection-types	findone	t		1	\N	\N
+173	content-manager	components	findcomponentconfiguration	t		1	\N	\N
+193	content-manager	single-types	publish	t		1	\N	\N
+183	content-manager	content-types	updatecontenttypeconfiguration	t		1	\N	\N
+97	users-permissions	user	count	f		2	\N	\N
+107	users-permissions	user	me	t		1	\N	\N
+117	users-permissions	userspermissions	getemailtemplate	f		1	\N	\N
+127	users-permissions	userspermissions	getroles	f		1	\N	\N
+137	users-permissions	userspermissions	updateemailtemplate	f		1	\N	\N
+210	application	subject	findone	f		2	\N	\N
+87	users-permissions	auth	forgotpassword	t		1	\N	\N
+164	content-manager	collection-types	findone	f		2	\N	\N
+174	content-manager	components	findcomponentconfiguration	f		2	\N	\N
+184	content-manager	content-types	updatecontenttypeconfiguration	f		2	\N	\N
+194	content-manager	single-types	publish	f		2	\N	\N
+88	users-permissions	auth	forgotpassword	t		2	\N	\N
+98	users-permissions	user	create	f		2	\N	\N
+108	users-permissions	user	me	t		2	\N	\N
+118	users-permissions	userspermissions	getemailtemplate	f		2	\N	\N
+128	users-permissions	userspermissions	getroles	f		2	\N	\N
+138	users-permissions	userspermissions	updateemailtemplate	f		2	\N	\N
+213	application	message	count	t		1	\N	\N
+\.
+
+
+--
+-- TOC entry 2971 (class 0 OID 33541)
+-- Dependencies: 216
+-- Data for Name: users-permissions_role; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."users-permissions_role" (id, name, description, type, created_by, updated_by) FROM stdin;
+2	Public	Default role given to unauthenticated user.	public	\N	\N
+1	Authenticated	Default role given to authenticated user.	authenticated	\N	\N
+\.
+
+
+--
+-- TOC entry 2972 (class 0 OID 33550)
+-- Dependencies: 217
+-- Data for Name: users-permissions_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."users-permissions_user" (id, username, email, provider, password, "resetPasswordToken", confirmed, blocked, role, created_by, updated_by, created_at, updated_at, "confirmationToken") FROM stdin;
+1	yannis	yannis.samba@gmail.com	local	$2a$10$m8ZrJfFHeVTusM5qZVNqPevjJf6I9.GX6/zR1W4q4bKrNFn3PJB.O	\N	t	f	1	1	1	2021-01-21 10:47:56.727+01	2021-01-21 11:17:54.492+01	\N
+2	Bob l'éponge 🧽	spongebob@squarepaint.co	local	$2a$10$4hStDTae.9A0yKvuBiaHTOxLQabZpfWgnyDjuJLALKlL1F95siMwa	\N	f	f	1	1	1	2021-01-21 11:25:35.557+01	2021-01-21 11:25:35.562+01	\N
+\.
+
+
+--
+-- TOC entry 3001 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: core_store_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.core_store_id_seq', 37, true);
+
+
+--
+-- TOC entry 3002 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.messages_id_seq', 1, true);
+
+
+--
+-- TOC entry 3003 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: strapi_administrator_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.strapi_administrator_id_seq', 1, true);
+
+
+--
+-- TOC entry 3004 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: strapi_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.strapi_permission_id_seq', 75, true);
+
+
+--
+-- TOC entry 3005 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: strapi_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.strapi_role_id_seq', 3, true);
+
+
+--
+-- TOC entry 3006 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: strapi_users_roles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.strapi_users_roles_id_seq', 1, true);
+
+
+--
+-- TOC entry 3007 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: strapi_webhooks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.strapi_webhooks_id_seq', 1, false);
+
+
+--
+-- TOC entry 3008 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: subjects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.subjects_id_seq', 6, true);
+
+
+--
+-- TOC entry 3009 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: upload_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.upload_file_id_seq', 1, false);
+
+
+--
+-- TOC entry 3010 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: upload_file_morph_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.upload_file_morph_id_seq', 1, false);
+
+
+--
+-- TOC entry 3011 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: users-permissions_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."users-permissions_permission_id_seq"', 224, true);
+
+
+--
+-- TOC entry 3012 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: users-permissions_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."users-permissions_role_id_seq"', 2, true);
+
+
+--
+-- TOC entry 3013 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users-permissions_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."users-permissions_user_id_seq"', 2, true);
+
+
+--
+-- TOC entry 2796 (class 2606 OID 33483)
+-- Name: core_store core_store_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.core_store
+    ADD CONSTRAINT core_store_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2830 (class 2606 OID 33896)
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2808 (class 2606 OID 33868)
+-- Name: strapi_administrator strapi_administrator_email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_administrator
+    ADD CONSTRAINT strapi_administrator_email_unique UNIQUE (email);
+
+
+--
+-- TOC entry 2810 (class 2606 OID 33552)
+-- Name: strapi_administrator strapi_administrator_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_administrator
+    ADD CONSTRAINT strapi_administrator_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2800 (class 2606 OID 33507)
+-- Name: strapi_permission strapi_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_permission
+    ADD CONSTRAINT strapi_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2802 (class 2606 OID 33866)
+-- Name: strapi_role strapi_role_code_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_role
+    ADD CONSTRAINT strapi_role_code_unique UNIQUE (code);
+
+
+--
+-- TOC entry 2804 (class 2606 OID 33864)
+-- Name: strapi_role strapi_role_name_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_role
+    ADD CONSTRAINT strapi_role_name_unique UNIQUE (name);
+
+
+--
+-- TOC entry 2806 (class 2606 OID 33546)
+-- Name: strapi_role strapi_role_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_role
+    ADD CONSTRAINT strapi_role_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2824 (class 2606 OID 33599)
+-- Name: strapi_users_roles strapi_users_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_users_roles
+    ADD CONSTRAINT strapi_users_roles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2798 (class 2606 OID 33494)
+-- Name: strapi_webhooks strapi_webhooks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.strapi_webhooks
+    ADD CONSTRAINT strapi_webhooks_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2828 (class 2606 OID 33882)
+-- Name: subjects subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.subjects
+    ADD CONSTRAINT subjects_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2826 (class 2606 OID 33608)
+-- Name: upload_file_morph upload_file_morph_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.upload_file_morph
+    ADD CONSTRAINT upload_file_morph_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2822 (class 2606 OID 33589)
+-- Name: upload_file upload_file_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.upload_file
+    ADD CONSTRAINT upload_file_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2812 (class 2606 OID 33548)
+-- Name: users-permissions_permission users-permissions_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_permission"
+    ADD CONSTRAINT "users-permissions_permission_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2814 (class 2606 OID 33566)
+-- Name: users-permissions_role users-permissions_role_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_role"
+    ADD CONSTRAINT "users-permissions_role_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2816 (class 2606 OID 33870)
+-- Name: users-permissions_role users-permissions_role_type_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_role"
+    ADD CONSTRAINT "users-permissions_role_type_unique" UNIQUE (type);
+
+
+--
+-- TOC entry 2818 (class 2606 OID 33571)
+-- Name: users-permissions_user users-permissions_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_user"
+    ADD CONSTRAINT "users-permissions_user_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2820 (class 2606 OID 33872)
+-- Name: users-permissions_user users-permissions_user_username_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."users-permissions_user"
+    ADD CONSTRAINT "users-permissions_user_username_unique" UNIQUE (username);
+
+
+-- Completed on 2021-01-21 12:46:00
+
+--
+-- PostgreSQL database dump complete
+--
+
